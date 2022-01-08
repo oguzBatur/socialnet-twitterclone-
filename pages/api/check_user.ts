@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
                     if(checkProfile.rows[0].exists)
                     {
                         const getProfile = await pool.query(`SELECT * FROM profile WHERE id=($1)`, [getUser.rows[0].profileid]);
-                        const token = await signJwt({email,name:getProfile.rows[0].name, lastname:getProfile.rows[0].lastname});
+                        const token = await signJwt({email,name:getProfile.rows[0].name, lastname:getProfile.rows[0].lastname, username:getProfile.rows[0].username});
                         if(typeof token === 'string') res.status(200).json({result: 'Authorized', auth:true, error:false,token:token});
                         else{
                             res.status(503).json({result: 'Error Occured', auth:false, error:true,token:null});

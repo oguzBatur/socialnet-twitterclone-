@@ -42,7 +42,7 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
                     else
                     {
                         const hashedPassword = await createHashedPassword(password);
-                        const token = await signJwt({email,name,lastname});
+                        const token = await signJwt({email,name,lastname,username});
                         const createProfile = await pool.query('INSERT INTO profile(name,lastname,username) VALUES (($1), ($2),($3)) RETURNING *', [name,lastname, username]);
                         const {id} = createProfile.rows[0];
                         const createdUser = await pool.query(`INSERT INTO login(email, password, profileid) VALUES (($1), ($2), ($3)) RETURNING *`, [email,hashedPassword,id]);

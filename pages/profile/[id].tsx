@@ -1,32 +1,47 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import {useRouter} from 'next/router';
+import Navbar from '../../components/Navbar';
+import { GetServerSideProps, GetServerSidePropsResult, NextPageContext } from 'next';
+import Profile from '../../components/Profile';
+import Feed from '../../components/Feed';
+import { checkToken } from '../../features/tokens';
+import { useCookies } from 'react-cookie';
+import { Post, Profile as ProfileType } from '../../common/types';
+import { verifyJwt } from '../../features/jwt';
+
+
+export interface ProfileStates{
+    sessionUser:string
+}
+
+
+
 
 export default function profile() {
+    
+    const [sessionUsername, setSessionUsername] = useState<ProfileStates["sessionUser"]>("")
+
+    const [cookies, setCookie, removeCookie] = useCookies(["user-token"])
     const router = useRouter();
-    const {id } = router.query;
+    const theID = router.query.id;
 
-    const FetchProfile = async() => {
-        const response = await fetch(`http://localhost:3000/api/fetch_profile`, {
-            method: 'POST',
-            headers:
-                {
-                    'Content-Type': 'application/json',
-                },
-            body: JSON.stringify({
-                id
-            })
-        });
-        const data = await response.json();
+ 
 
-        console.log(data);
-
+    const FetchSessionProfile = async() => {
+        const token = await checkToken(cookies['user-token']);
+        setSessionUsername(token.profile.username)
     }
+
     useEffect(() => {
-        FetchProfile();
-    }, [id])
+        FetchSessionProfile();
+    }, [theID])
     return (
-        <div>
-            {id}
+        <div className='bg-gray-900  min-h-screen '>
+            <Navbar username={username} />
+            <Profile sessionUsername={sessionUsername}   />
+            <Feed username={username} posts={posts} />
+
         </div>
     )
 }
+

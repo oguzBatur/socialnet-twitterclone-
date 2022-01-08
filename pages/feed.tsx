@@ -6,6 +6,7 @@ import Router from 'next/router';
 import Feed from '../components/Feed';
 import Loader from '../components/Loader';
 import CreatePost from '../components/CreatePost';
+import { Post } from '../common/types';
 
 interface FeedStates{
     user:{
@@ -16,7 +17,7 @@ interface FeedStates{
     },
     feedFetched: boolean,
     error: string,
-    posts: Array<any>,
+    posts: Array<Post>,
     shareCounter: number
 }
 
@@ -55,6 +56,7 @@ export default function feed() {
 
             })
             const data = await response.json();
+            console.log(data);
             if(!data.auth)
             {
                 removeCookie('user-token');
@@ -62,7 +64,7 @@ export default function feed() {
             }
             else
             {
-                setUser({email: data.result.email, lastname: data.result.lastname, name: data.result.name, username: data.result.username});
+                setUser({email: data.result.email, lastname: data.result.profile.lastname, name: data.result.profile.name, username: data.result.profile.username});
                 getFeed(data.result.email);
 
             }
@@ -81,7 +83,6 @@ export default function feed() {
             })
         });
         const data = await response.json();
-        console.log('Goin in');
         if(!data.auth)
         {
             setError('Cannot Load Feed.')
@@ -97,6 +98,7 @@ export default function feed() {
             else
             {
                 setFeedFetched(true)
+                console.log(data);
                 setPosts(data.result);
                 
             }
@@ -107,7 +109,7 @@ export default function feed() {
         if(error === '')
         {
             return(
-                <Feed posts={posts} key={'TheFeed'}/>
+                <Feed username={user.username} posts={posts} key={'TheFeed'}/>
 
             )
         }
@@ -129,10 +131,10 @@ export default function feed() {
 
     return (
         
-        <div>
-            <Navbar/>
-            <div className='w-10/12 m-auto flex items-center justify-center flex-col'>
-            <CreatePost key={'createpostelement'} parentUpdate={forceUpdate} email={user.email} lastname={user.lastname} name={user.name} username=''  />
+        <div className='bg-gray-900 min-h-screen'>
+            <Navbar username={user.username}/>
+            <div className='w-10/12 m-auto flex items-center justify-center flex-col '>
+                <CreatePost key={'createpostelement'} parentUpdate={forceUpdate} email={user.email} lastname={user.lastname} name={user.name} username={user.username}  />
             </div>
             {!feedFetched && (
                 <div key={'loader'} className='flex justify-center items-center h-[70vh]'>
@@ -141,7 +143,7 @@ export default function feed() {
             )}
             {feedFetched && (
                 <div className='w-10/12 m-auto flex items-center justify-center flex-col'>
-                    <div  className='py-8 bg-slate-50 w-full flex justify-center gap-12 mt-3 shadow-xl rounded-t-3xl items-center'>
+                    <div  className='py-8 px-4  w-full flex justify-center gap-12 mt-3  rounded-t-3xl items-center'>
                         {properLoad()}
                     </div>
                 </div>

@@ -1,56 +1,104 @@
-import React, {useEffect, useState} from 'react'
-import {motion} from 'framer-motion';
-
-
+import React, {Component, useEffect, useState} from 'react'
+import {ForwardRefComponent, motion} from 'framer-motion';
+import Link from 'next/link';
+import {Post,Profile} from '../common/types';
 interface FeedProps{
-    posts: Array<object>,
-
+    posts: Array<Post>,
+    username: string
 }
 interface FeedStates{
-    postDepo: Array<any>
+    postDepo: Array<any>,
 }
 
 
-export default function Feed({posts}:FeedProps) {
+export default function Feed({posts, username}:FeedProps) {
+    const months:any = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "July",
+        "07": "June",
+        "08": "August",
+        "09": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    }
     const list = {
         visible: { opacity: 1 },
         hidden: { opacity: 0 },
     }
-      
     const item = {
         visible: { opacity: 1, y: 0 },
         hidden: { opacity: 0, y: -20 },
     }
 
     function parseISOString(isoDates:any) {
-        var b = isoDates.split(/\D+/);
-        return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+        const theHour = isoDates.split(/T/g)[1].split(/\./)[0];
+        const theYear = isoDates.split(/T/g)[0].split(/-/)[0];
+        const theMonth:string = isoDates.split(/T/g)[0].split(/-/)[1];
+        const theDay = isoDates.split(/T/g)[0].split(/-/)[2];
+    
+        
+      
+
+        const newDate = theDay + " " + months[theMonth] + ", " +  theHour;
+
+        return newDate;
     }
     const [postDepo, setPostDepo] = useState<FeedStates["postDepo"]>([]);
 
     useEffect(() =>  {
-        console.log('Checker is here!');
         FormatPosts();
-        console.log(postDepo);
 
     }, [posts])
+
+
     const FormatPosts = () => {
-         setPostDepo(posts.map(post => {
-            return(
-                <motion.div variants={item} className='bg-white shadow-xl w-10/12 px-6 py-3'>
-                    <p className='font-medium '>{post.author}</p>
-                    <p>{post.post}</p>
-                    <p className='font-thin text-sm'>{post.timestamp}</p>
-                    <button className='mx-2'>Like</button>
-                    <button className='mx-2'>Retweet</button>
-                </motion.div>
-            )
-        }))
+        console.log(posts);
+        if(posts instanceof Array)
+        {
+            setPostDepo(posts.sort((a,b) => b.id - a.id).map((post:Post) => {
+                if(post)
+                {
+
+                    return(
+                        <motion.div key={post.timestamp + post.author + post.post} variants={item} className='text-white bg-neutral-600 rounded-lg  shadow-xl w-10/12 px-6 py-3'>
+                            <p className='font-medium '>
+                                <Link href={"/profile/" + post.author}>
+                                    {post.author}
+                                </Link>
+                            </p>
+                            <p>{post.post}</p>
+                            <p className='font-thin text-sm'>{parseISOString(post.timestamp)}</p>
+                        </motion.div>
+                    )
+                }
+            
+            }))    
+        }
+        else
+        {
+            setPostDepo([<p className='text-bold text-white text-2xl'>No Posts</p>])
+        }
     }
-    
+
+    const displayManager = () => {
+        console.log(postDepo)
+        if(!postDepo)
+        {
+            return <p className='text-bold text-white text-2xl'>No Posts</p>
+        }
+        else
+        {
+            return postDepo
+        }
+    }
     return (
-        <motion.div variants={list} initial='hidden' animate='visible' className='flex flex-col-reverse w-full gap-12 items-center'>
-          {postDepo}
+        <motion.div variants={list} initial='hidden' animate='visible' className='flex  flex-col  w-full gap-12 items-center'>
+          {displayManager()}
         </motion.div>
     )
 }

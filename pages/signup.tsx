@@ -10,7 +10,8 @@ interface SignupStates{
     email: string,
     password: string,
     errorMessage: string,
-    username: string
+    username: string,
+    fetching: boolean
 }
 
 
@@ -22,7 +23,7 @@ const Signup:NextPage = () =>  {
     const [email,setEmail] = useState<SignupStates["email"]>('');
     const [password,setPassword] = useState<SignupStates["password"]>('');
     const [errorMessage, setErrorMessage] = useState<SignupStates["errorMessage"]>('');
-
+    const [fetching, setFetching] = useState<SignupStates["fetching"]>(false);
     const preventReRenderAndCallHandleForm = async(e:React.FormEvent) => {
         try {
             e.preventDefault();
@@ -49,7 +50,7 @@ const Signup:NextPage = () =>  {
                 }
                 else
                 {
-                    setCookie('user-token', data.token);
+                    setCookie('user-token', data.token, {path:'/'});
                     Router.router?.push('/feed');
                 }
                 

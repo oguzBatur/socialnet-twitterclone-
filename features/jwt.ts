@@ -5,6 +5,7 @@ interface JwtObject{
     name: string,
     lastname: string,
     email: string,
+    username: string
 
 }
 
@@ -21,9 +22,9 @@ export const signJwt = async(payload:JwtObject) => {
 
 export const verifyJwt =async (token:string) => {
     try {
-        return  jwt.verify(token,SECRET);
+        return  Object(jwt.verify(token,SECRET));
     } catch (error) {
-        return error
+        return
     }
 }
 
