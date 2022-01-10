@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import pool from '../../features/databasepg';
 import { createHashedPassword } from '../../features/bcypt';
 import {signJwt} from '../../features/jwt';
+import { Profile,Post,Like,Login } from '../../common/types';
 
 export type Data = {
   result: any

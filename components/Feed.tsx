@@ -1,17 +1,18 @@
-import React, {Component, useEffect, useState} from 'react'
-import {ForwardRefComponent, motion} from 'framer-motion';
+import React, {useEffect, useState} from 'react'
+import {motion} from 'framer-motion';
 import Link from 'next/link';
-import {Post,Profile} from '../common/types';
+import { useRouter } from 'next/router';
+import {Post} from '../common/types';
+import Loader from './Loader';
 interface FeedProps{
     posts: Array<Post>,
-    username: string
 }
 interface FeedStates{
     postDepo: Array<any>,
 }
 
 
-export default function Feed({posts, username}:FeedProps) {
+export default function Feed({posts}:FeedProps) {
     const months:any = {
         "01": "January",
         "02": "February",
@@ -34,6 +35,7 @@ export default function Feed({posts, username}:FeedProps) {
         visible: { opacity: 1, y: 0 },
         hidden: { opacity: 0, y: -20 },
     }
+    const router = useRouter();
 
     function parseISOString(isoDates:any) {
         const theHour = isoDates.split(/T/g)[1].split(/\./)[0];
@@ -51,9 +53,10 @@ export default function Feed({posts, username}:FeedProps) {
     const [postDepo, setPostDepo] = useState<FeedStates["postDepo"]>([]);
 
     useEffect(() =>  {
+        console.log('Initiated Feed')
         FormatPosts();
 
-    }, [posts])
+    }, [posts,router.query.id])
 
 
     const FormatPosts = () => {
@@ -86,7 +89,7 @@ export default function Feed({posts, username}:FeedProps) {
     }
 
     const displayManager = () => {
-        console.log(postDepo)
+        console.log (postDepo)
         if(!postDepo)
         {
             return <p className='text-bold text-white text-2xl'>No Posts</p>
@@ -96,8 +99,10 @@ export default function Feed({posts, username}:FeedProps) {
             return postDepo
         }
     }
+    
     return (
-        <motion.div variants={list} initial='hidden' animate='visible' className='flex  flex-col  w-full gap-12 items-center'>
+
+        <motion.div variants={list} initial='hidden' animate='visible' className='flex  flex-col  w-full gap-12 pb-12 items-center'>
           {displayManager()}
         </motion.div>
     )

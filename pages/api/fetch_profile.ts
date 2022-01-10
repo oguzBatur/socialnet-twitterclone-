@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import pool, {checkAndGetUserName, getPostsWithProfileID} from '../../features/databasepg';
+import pool, {checkAndGetUserName, getPostsWithProfileID, queryEngine} from '../../features/databasepg';
 import { createHashedPassword } from '../../features/bcypt';
 import {signJwt} from '../../features/jwt';
 import {Data} from "./create_user";
@@ -7,45 +7,38 @@ import { QueryResult } from 'pg';
 
 export default async function handler(req: NextApiRequest,res: NextApiResponse<Data>) {
     try {
-        if(req.method === 'POST')
+        if(req.method === 'GET')
         {
-            const {username} = req.body;
-            const checkUser = await checkAndGetUserName(username);
-            if(checkUser === null)
+            if(req.headers.authorization)
             {
-                
-                res.json({
-                    auth: false,
-                    error: true,
-                    result: null,
-                    token:null
-                })
-            }
-            else if(checkUser)
-            {
-                
-                const getPosts = await getPostsWithProfileID(checkUser.id);
-                console.log(getPosts);
-                const result = {
-                    ...checkUser,
-                    posts: getPosts
-                }
-                res.json(
-                    {
-                        result,
+                const username = req.headers.authorization;
+                const theUser = await queryEngine(username,{fetchingData:'username',returnData:'Profile'});
+                if(theUser)
+                {
+                    res.json({
                         auth: true,
                         error: false,
+                        result: theUser,
                         token: null
-                    }
-                )
-
+                    })
+                }
+                else
+                {
+                    res.json({
+                        auth:false,
+                        error:true,
+                        result: "Can't fetch profile.",
+                        token: null
+                    })
+                }
             }
-            else{
-                res.json({
+            else
+            {
+                res.status(503).json({
                     auth: false,
-                    error: true,
-                    result: null,
-                    token:null
+                    error: false,
+                    result: "Internal Server Error.",
+                    token: null
                 })
             }
         }

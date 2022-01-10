@@ -101,8 +101,8 @@ export const followSomeone = async(followerUsername:string, followUsername:strin
 interface getFeedOptions{
     userinfo: string|number,
     options:{
-        fetchingData: "username" | "profileID" | "loginEmail" | "loginID" | undefined,
-        returnData: "Login" | "Profile" | "All Posts" | "Posts" | "FollowData"
+        fetchingData: "username" | "profileID" | "loginEmail" | "loginID" | "Search",
+        returnData?: "Login" | "Profile" | "All Posts" | "Posts" | "FollowData"
     }
 
 }
@@ -144,6 +144,8 @@ export const queryEngine = async(userinfo:getFeedOptions["userinfo"],options:get
                 userLogin = await (await pool.query("SELECT * FROM login WHERE id=($1)", [userinfo])).rows[0];
                 userProfile = await (await pool.query("SELECT * FROM profile WHERE id=($1)", [userLogin.profileid])).rows[0];
                 break;
+            case "Search":
+                return await (await pool.query("SELECT * FROM profile WHERE username LIKE $1", [userinfo + "%"])).rows;
             default:
                 return undefined;
         }

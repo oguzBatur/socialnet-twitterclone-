@@ -109,7 +109,7 @@ export default function feed() {
         if(error === '')
         {
             return(
-                <Feed username={user.username} posts={posts} key={'TheFeed'}/>
+                <Feed  posts={posts} key={'TheFeed'}/>
 
             )
         }

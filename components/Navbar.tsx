@@ -3,6 +3,7 @@ import Router, { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import Link from 'next/link';
 import Searchbar from './Searchbar';
+import { verifyJwt } from '../features/jwt';
 
 
 
@@ -17,12 +18,14 @@ interface NavbarStates{
     visibility: {
         display: string
     },
-    logoPath: string
+    logoPath: string,
+    theUserName: string
 }
 
 export default function Navbar({username}:NavbarProps) {
     const [cookies, setCookie, removeCookie] = useCookies(["user-token"]);
     const [searchResult, setSearchResult] = useState<NavbarStates["searchResult"]>([]);
+    const [theUserName, setTheUserName] = useState<NavbarStates["theUserName"]>();
     const [search, setSearch] = useState<NavbarStates["search"]>("");
     const [visibility, setVisibility] = useState<NavbarStates["visibility"]>({
         display: "none"
@@ -34,7 +37,10 @@ export default function Navbar({username}:NavbarProps) {
         removeCookie('user-token', {path:'/'});
         if(!cookies['user-token']) Router.router?.push('/');
     }
-
+    const theToken = async() => {
+        const token = await verifyJwt(cookies['user-token']);
+        setTheUserName(token.username);
+    }
     useEffect(() => {
         if(cookies['user-token'])
         {
@@ -68,37 +74,8 @@ export default function Navbar({username}:NavbarProps) {
 
     }
 
-    const SearchHandler = async(e:ChangeEvent<HTMLInputElement>) => {
-        if(e.target.value.replace(/\S/g, "") === "")
-        {
-            setSearchResult([""])
-        }
-        else
-        {
-            const response = await fetch("http://localhost:3000/api/fetch_profile", {
-                method: "POST",
-                headers:{
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: e.target.value
-                }),
-            });
-
-            const data = await response.json();
-            if(data.auth)
-            {
-
-                setSearchResult([data.result.username])
-                setVisibility({
-                    display: "flex"
-                })
-
-            }         
-        }
-        
-    }
-
+ 
+    useEffect(()=>{theToken()},[])
 
     return (
         
@@ -113,14 +90,7 @@ export default function Navbar({username}:NavbarProps) {
                   <div className=' flex h-full'>
                     <Searchbar />
                   </div>
-                  
-                  <ul style={visibility} className={`absolute w-full bg-gray-800 shadow-2xl p-4 rounded-t-3xl   mt-1 flex-col gap-6 z-10 `}>
-                       
-                    
-                      {SearchResultHandler()}
-                  </ul>
                 </li>
-                
                 <li className='row-start-2  cursor-pointer col-start-4 justify-self-center hover:bg-gray-200 duration-200 hover:bg-opacity-80 px-6 py-1 rounded-xl '>
                     <Link href={"/feed"}>
                         Feed 
@@ -128,7 +98,8 @@ export default function Navbar({username}:NavbarProps) {
                 </li>
                
                 <li onClick={() => {
-                    Router.push('/profile/' + username)        
+
+                    Router.push('/profile/' + theUserName)
 
                 }} className='row-start-2 cursor-pointer select-none col-start-5 justify-self-center hover:bg-gray-200 duration-200 hover:bg-opacity-80 px-6 py-1 rounded-xl '>
                     Profile 
