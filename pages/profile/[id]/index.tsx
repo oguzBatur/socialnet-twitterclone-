@@ -101,7 +101,7 @@ export default function profile() {
     }, [theID])
     return (
         <div className='bg-[#050406] min-h-screen'>
-            <Navbar username={sessionUsername} />
+            <Navbar />
             <Profile  followers={followers} follows={follows} id={id} description={description} img={img}  lastname={lastname} likes={likes} location={location} name={name} posts={posts} username={username} key={name + lastname + username + id}  sessionUsername={sessionUsername}    />
             <p className='w-full text-center text-3xl font-bold text-white mb-12'>Feed</p> 
             {(() => {

@@ -130,7 +130,7 @@ export default function feed() {
         
         <div className='bg-[#050406] min-h-screen'>
             
-            <Navbar username={user.username}/>
+            <Navbar />
             <div className='w-10/12 m-auto flex items-center justify-center flex-col '>
                 <CreatePost key={'createpostelement'} parentUpdate={forceUpdate} email={user.email} lastname={user.lastname} name={user.name} username={user.username}  />
             </div>

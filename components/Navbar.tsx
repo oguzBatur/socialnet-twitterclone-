@@ -7,10 +7,7 @@ import { verifyJwt } from '../features/jwt';
 
 
 
-interface NavbarProps
-{
-    username:string
-}
+
 
 interface NavbarStates{
     searchResult: Array<string>,
@@ -22,7 +19,7 @@ interface NavbarStates{
     theUserName: string
 }
 
-export default function Navbar({username}:NavbarProps) {
+export default function Navbar() {
 
     const router = useRouter();
 
