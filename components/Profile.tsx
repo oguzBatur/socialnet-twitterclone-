@@ -4,6 +4,8 @@ import {Router, useRouter} from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
 import {Profile as ProfileType} from '../common/types';
 import EditProfile from './EditProfile';
+import Image from 'next/image';
+
 
 interface ProfileProps extends ProfileType {
 
@@ -141,8 +143,8 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
     
         return (
             <motion.div key={"profile-render"}  className=' mb-12  text-white bg-[#2f3d4f] grid grid-rows-2 w-6/12 m-auto p-12 rounded-3xl grid-cols-3 items-center my-8  justify-items-center'>
-                <div className='w-24  col-start-1 row-span-3 self-center justify-self-center flex items-center justify-center row-start-1 h-24 border-gray-400 border-2 rounded-full overflow-hidden'>
-                    <img  src={img} alt="profile-pic" />
+                <div className='w-24  col-start-1 row-span-3 self-center justify-self-center flex items-center justify-center row-start-1 h-24 relative border-gray-400 border-2 rounded-full overflow-hidden'>
+                  <Image src={img} objectFit='cover' width={12} height={12}  layout='fill' alt='profile-pic' about='profile picture' ></Image>
                 </div>
                 {(() => {
                     if(isEditing && sessionUsername === username)

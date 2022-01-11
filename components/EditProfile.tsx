@@ -3,7 +3,7 @@ import {motion, AnimatePresence} from 'framer-motion'
 import { Data } from '../pages/api/create_user';
 import Router, { useRouter } from 'next/router';
 import Loader from './Loader';
-
+import Image from 'next/image'
 
 interface EditProfileProps{
     img: string | undefined,
@@ -75,7 +75,7 @@ export default function EditProfile({img, handleEditing, username}:EditProfilePr
             <motion.div initial={{y:10, opacity:0}} animate={{opacity:1, y:0}} exit={{opacity:0}} className='w-6/12  h-[500px] top-24  bg-[#2f3d4f] z-10 flex justify-center absolute   flex-col items-center shadow-xl rounded-3xl'>
                 <p className='font-bold text-xl py-4'>Edit Profile</p>
                 <div className='w-24 h-24 overflow-hidden  mx-12 mt-4 flex relative  items-center justify-center rounded-full border-2 border-gray-500'>
-                    <img src={newImg ? newImg : img} alt="profile-pic"   />
+                    <Image src={img} layout='fill' alt='profile-pic' about='profile picture to edit' ></Image>
                     <input accept='.jpg, .jpeg, .png' type="file" className='w-full h-full absolute opacity-0 rounded-full cursor-pointer z-10' onChange={ParseIMGtoBase64} />
                 </div>
                 <div key={"edit-the-location"} className='flex my-4 flex-col items-center justify-center w-full'>

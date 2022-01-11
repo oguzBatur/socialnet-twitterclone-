@@ -5,6 +5,10 @@ import { Profile } from '../../../common/types';
 import { Data } from '../../api/create_user';
 import Loader from '../../../components/Loader';
 import {FaArrowLeft} from "react-icons/fa"
+import Image from 'next/image';
+import Navbar from '../../../components/Navbar';
+
+
 interface FollowingState{
     following:Array<Profile>,
     username: string,
@@ -84,8 +88,8 @@ export default function following() {
                 <motion.div onClick={() => {
                     router.push('/profile/'+ following.username)
                 }} className='bg-slate-800 p-4 cursor-pointer hover:bg-slate-700 duration-150 text-white rounded-md flex gap-3  items-center   justify-start w-6/12'>
-                    <div className='w-16 h-16 rounded-full text-white overflow-hidden flex items-center justify-center'>
-                        <img src={following.img} alt="" /> 
+                    <div className='w-16 h-16 rounded-full relative text-white overflow-hidden flex items-center justify-center'>
+                        <Image src={following.img} layout='fill' objectFit='cover' alt='profile-pic' about='profile picture' ></Image>
                     </div>
                     <div>
                         <p className='text-xl  font-bold'>{following.name + " " + following.lastname}</p>
@@ -105,7 +109,11 @@ export default function following() {
 
     return (
         <div className='bg-[#050406] w-full h-screen flex flex-col items-center justify-start'>
-            <div className='w-full flex  items-center justify-center'>
+
+            <div className='w-full '>
+                <Navbar />
+            </div>
+            <div className='w-full flex   items-center justify-center'>
                 {(() => {
                     if(username)
                     {

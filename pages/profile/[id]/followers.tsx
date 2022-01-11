@@ -5,6 +5,8 @@ import { Profile } from '../../../common/types';
 import { Data } from '../../api/create_user';
 import Loader from '../../../components/Loader';
 import {FaArrowLeft} from "react-icons/fa"
+import Image from 'next/image';
+
 interface FollowersState{
     followers:Array<Profile>,
     username: string,
@@ -88,8 +90,8 @@ export default function followers() {
                 <motion.div key={`${follower.description}`} onClick={() => {
                     router.push('/profile/'+ follower.username)
                 }} className='bg-slate-800 p-4 cursor-pointer hover:bg-slate-700 duration-150 text-white rounded-md flex gap-3  items-center   justify-start w-6/12'>
-                    <div className='w-16 h-16 rounded-full text-white overflow-hidden flex items-center justify-center'>
-                        <img src={follower.img} alt="" /> 
+                    <div className='w-16 h-16 rounded-full text-white overflow-hidden flex relative items-center justify-center'>
+                    <Image src={follower.img} layout='fill' objectFit='cover' alt='profile-pic' about='profile picture' ></Image>
                     </div>
                     <div>
                         <p className='text-xl  font-bold'>{follower.name + " " + follower.lastname}</p>
