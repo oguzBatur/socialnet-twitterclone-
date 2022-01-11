@@ -8,10 +8,6 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse<Dat
         if(req.method === "PUT")
         {
             const {description, location, img, username} = JSON.parse(req.body);
-            console.log('The Description: ', description);
-            console.log('The Description: ', location);
-            console.log('The Description: ', img);
-            console.log('The Description: ', username);
             if(!username)
             {
 
