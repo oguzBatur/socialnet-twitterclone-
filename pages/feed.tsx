@@ -128,22 +128,23 @@ export default function feed() {
         setInterval(checkForToken, 300000);
         console.log('ForceUpdated.');
     }, [shareCounter])
-
+   
     return (
-        
-        <div className='bg-gray-900 min-h-screen'>
+        <div className='bg-[#050406] min-h-screen'>
             <Navbar username={user.username}/>
             <div className='w-10/12 m-auto flex items-center justify-center flex-col '>
                 <CreatePost key={'createpostelement'} parentUpdate={forceUpdate} email={user.email} lastname={user.lastname} name={user.name} username={user.username}  />
             </div>
             {!feedFetched && (
                 <div key={'loader'} className='flex justify-center items-center h-[70vh]'>
-                    <Loader />
+                    <Loader borderWidth='border-4' height='h-12' width='w-12' />
                 </div>
             )}
+            <p className='text-white font-bold text-center text-2xl'>Your Feed</p>
             {feedFetched && (
                 <div className='w-10/12 m-auto flex items-center justify-center flex-col'>
                     <div  className='py-8 px-4  w-full flex justify-center gap-12 mt-3  rounded-t-3xl items-center'>
+                        
                         {properLoad()}
                     </div>
                 </div>

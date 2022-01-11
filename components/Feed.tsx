@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react'
 import {motion} from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import {Post} from '../common/types';
+import {Post, Profile} from '../common/types';
 import Loader from './Loader';
 interface FeedProps{
     posts: Array<Post>,
 }
 interface FeedStates{
     postDepo: Array<any>,
+    profileInfor: Profile
 }
 
 
@@ -42,14 +43,10 @@ export default function Feed({posts}:FeedProps) {
         const theYear = isoDates.split(/T/g)[0].split(/-/)[0];
         const theMonth:string = isoDates.split(/T/g)[0].split(/-/)[1];
         const theDay = isoDates.split(/T/g)[0].split(/-/)[2];
-    
-        
-      
-
         const newDate = theDay + " " + months[theMonth] + ", " +  theHour;
-
         return newDate;
     }
+
     const [postDepo, setPostDepo] = useState<FeedStates["postDepo"]>([]);
 
     useEffect(() =>  {
@@ -57,6 +54,8 @@ export default function Feed({posts}:FeedProps) {
         FormatPosts();
 
     }, [posts,router.query.id])
+
+   
 
 
     const FormatPosts = () => {
@@ -68,7 +67,7 @@ export default function Feed({posts}:FeedProps) {
                 {
 
                     return(
-                        <motion.div key={post.timestamp + post.author + post.post} variants={item} className='text-white bg-neutral-600 rounded-lg  shadow-xl w-10/12 px-6 py-3'>
+                        <motion.div key={post.timestamp + post.author + post.post} variants={item} className='text-white bg-gray-900  rounded-lg  shadow-xl w-10/12 px-6 py-3'>
                             <p className='font-medium '>
                                 <Link href={"/profile/" + post.author}>
                                     {post.author}

@@ -162,7 +162,6 @@ export const queryEngine = async(userinfo:getFeedOptions["userinfo"],options:get
 
             case 'Profile':
                 return userProfile;
-                break;
 
             case 'All Posts':
                 console.log("This is the user thats feed we have to fetch: ", userProfile);
@@ -210,14 +209,23 @@ export const queryEngine = async(userinfo:getFeedOptions["userinfo"],options:get
                 let followersData:Array<Profile> = [];
                 let followingData:Array<Profile> = [];
                 let followData:Array<Array<Profile>> = [];
-                for (let i = 0; i < userProfile.followers.length; i++) {    
-                    const followers = await (await pool.query('SELECT * FROM profile WHERE id=($1)', [userProfile.followers[i]])).rows[0];
-                    followersData.push(followers)
+                console.log("These are the followers: ", userProfile);
+                if(userProfile.followers)
+                {
+                    for (let i = 0; i < userProfile.followers.length; i++) {    
+                        const followers = await (await pool.query('SELECT * FROM profile WHERE id=($1)', [userProfile.followers[i]])).rows[0];
+                        followersData.push(followers)
+                        console.log('In loop!')
+                    }
                 }
-                for (let i = 0; i < userProfile.follows.length; i++) {
-                    const following = await (await pool.query('SELECT * FROM profile WHERE id=($1)', [userProfile.follows[i]])).rows[0];
-                    followingData.push(following);
+                if(userProfile.follows)
+                {
+                    for (let i = 0; i < userProfile.follows.length; i++) {
+                        const following = await (await pool.query('SELECT * FROM profile WHERE id=($1)', [userProfile.follows[i]])).rows[0];
+                        followingData.push(following);
+                    }
                 }
+                
                 followData.push(followingData, followersData);
                 return followData;
             case 'Posts':

@@ -83,7 +83,7 @@ const Home:NextPage = () => {
     {
       return(
         <div  className='w-96 flex items-center justify-center'>
-          <Loader />
+          <Loader borderWidth='border-8' width='w-12' height='h-12' />
         </div>
       )
     }

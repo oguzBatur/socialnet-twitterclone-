@@ -69,7 +69,7 @@ const Signup:NextPage = () =>  {
 
     return (
 
-        <div className='flex flex-col gap-4 items-center justify-center h-screen'>
+        <div className='flex flex-col gap-4 items-center justify-center bg-[#050406]  h-screen'>
             <Head>
                 <title>SocialNet - Signup</title>
             </Head>
@@ -77,7 +77,7 @@ const Signup:NextPage = () =>  {
                 <Link href={'/'}>
                     SocialNet
                 </Link></h1>
-            <form onSubmit={preventReRenderAndCallHandleForm} method='POST' className='flex flex-col gap-4 shadow-xl sm:p-12 p-2 bg-white'>
+            <form onSubmit={preventReRenderAndCallHandleForm} method='POST' className='flex flex-col gap-4 shadow-xl sm:p-12 p-2 text-white bg-gray-800'>
                 <h2 className='text-center font-medium text-lg'>Sign up to SocialNet</h2>
                 <div className='flex flex-col text-center'>
                     <label >

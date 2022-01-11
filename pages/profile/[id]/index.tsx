@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {useRouter} from 'next/router';
-import Navbar from '../../components/Navbar';
-import Profile from '../../components/Profile';
-import Feed from '../../components/Feed';
-import { checkToken } from '../../features/tokens';
+import Navbar from '../../../components/Navbar';
+import Profile from '../../../components/Profile';
+import Feed from '../../../components/Feed';
+import { checkToken } from '../../../features/tokens';
 import { useCookies } from 'react-cookie';
-import { Post, Profile as ProfileType } from '../../common/types';
-import { Data } from '../api/create_user';
-import Loader from '../../components/Loader';
+import { Post, Profile as ProfileType } from '../../../common/types';
+import { Data } from '../../api/create_user';
+import Loader from '../../../components/Loader';
 
 
 export interface ProfileStates{
@@ -93,9 +93,10 @@ export default function profile() {
         FetchSessionProfile();
     }, [theID])
     return (
-        <div className='bg-gray-900  min-h-screen'>
+        <div className='bg-[#050406] min-h-screen'>
             <Navbar username={sessionUsername} />
             <Profile  followers={followers} follows={follows} id={id}  lastname={lastname} likes={likes} location={location} name={name} posts={posts} username={username} key={name + lastname + username + id}  sessionUsername={sessionUsername}    />
+            <p className='w-full text-center text-3xl font-bold text-white mb-12'>Feed</p> 
             {(() => {
                 if(!allPosts)
                 return(
@@ -106,6 +107,7 @@ export default function profile() {
                 else
                 {
                     return(
+
                         <Feed  posts={allPosts} />
                     )
                 }

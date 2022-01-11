@@ -27,7 +27,7 @@ export default function CreatePost({name,lastname,email, parentUpdate, username}
 
     
     const createPost = async() => {
-        if(message?.replace(/\s/, "") !== '')
+        if(message?.replace(/\s/g, "") !== '')
         {
             parentUpdate();
             setNotFetched(true);
@@ -57,21 +57,7 @@ export default function CreatePost({name,lastname,email, parentUpdate, username}
             setError(<motion.p initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className='h-6  text-red-500 font-medium text-center'>The Message Field is Empty</motion.p>)
         }
     }
-    
-    const handleMessageInput = (e: React.FormEvent<HTMLSpanElement>) => {
-        
-        if(e.currentTarget.innerText.length < 120)
-        {
-            setMessage(e.currentTarget.innerText);
-            setError(<motion.p initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className='h-6  text-red-500 font-medium text-center'></motion.p>);
-        }
-        else
-        {
-            setError(<motion.p initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className='h-6  text-red-500 font-medium text-center'>Messages can't be longer than 120 characters.</motion.p>)
-            e.currentTarget.innerText = message
-        }
-
-    }
+  
     const LockWhenCreatingPost = () => {
         if(notFetched)
         {
@@ -87,45 +73,39 @@ export default function CreatePost({name,lastname,email, parentUpdate, username}
             )
         }
     }
-
-    
+ 
+    const handleInput = (e:React.KeyboardEvent<HTMLDivElement>) => {
+        const child = e.currentTarget.childNodes[1];
+        setMessage(message + e.key);
+        
+    }
 
     return (
-        <div className='flex  px-24 py-4  items-center justify-center w-[99vw]  flex-col  '>
-            <div className='bg-white p-4 rounded-lg min-h-[250px] flex items-center justify-center shadow-md w-6/12 '>
-                <div className='py-8   w-full flex sm:flex-row flex-col justify-center gap-12 items-center'>
-                    <div  className='overflow-hidden mb-6 self-center h-12 w-12 rounded-full'>
-                    <img src="https://scontent.fsaw1-14.fna.fbcdn.net/v/t31.18172-1/p160x160/20543650_10214230371374598_787689956164733510_o.jpg?_nc_cat=102&ccb=1-5&_nc_sid=7206a8&_nc_ohc=pviQfR27cMoAX_0cLFA&_nc_oc=AQmQgzn2QtNBZv5GjlPAX3rLsWuG8wvIqFWOQ2EzCr2rcdTBau0fxYaI6CjjliOR6qg&_nc_ht=scontent.fsaw1-14.fna&oh=00_AT8B0_C_9JXPO15bWVHpKiynbiszwdstVHbx9Dx62t-4OA&oe=61F56C38" alt="" className='w-14'/>
-                    </div>
-                    <div className='flex flex-col w-245'>
-                        <div className='flex flex-col w-full  relative '>
-                            <div className='w-96 h-12  text-gray-300' >
-                                share your thoughts...
-                                {(() => {   
-                                    if(!message)
-                                    {
-                                        return <br  />
-                                    }
-                                    else return (
-                                    <span  onInput={handleMessageInput}   id='messagebox' contentEditable={true}  className=' overflow resize-none  break-all sm:w-56 md:w-96 border-2 p-4 rounded-full   border-gray-400' >
-                                        {message}
-                                    </span>
+        <div className='flex  gap-5  px-24 py-4  items-center justify-center w-[99vw]  flex-col  '>
+            <div className='bg-[#2f3d4f] p-2  sm:px-24 sm:py-12 rounded-lg flex   justify-end  flex-col gap-4'>
+                <textarea placeholder={(() => {
+                    if(username)
+                    {
 
-                                    )
-                                })()}
+                        return 'Share your thoughts ' + username + "!"
+                    }
 
-                                {error}
-
-                            </div>
-                        </div>
-
-                        {/* <input placeholder='Share your thoughts...' className=' bg-white overflow resize-none  break-all w-96 border-2 p-2 rounded-full h  border-gray-400'></input> */}
-                        
-                    </div>
-                    <button  disabled={notFetched}  onClick={createPost} className='disabled:text-gray-3s00 flex items-center justify-center bg-blue-400 rounded-3xl py-2 mb-6 w-24 h-12 text-white font-bold px-6'>
-                        {LockWhenCreatingPost()}
+                    
+                })()} className=' bg-[#2f3d4f] overflow resize-none  break-all w-96 border-2 p-2 outline-none appearance-none rounded-lg  text-white    border-[#2f3d4f]' value={message} onChange={(e) => {
+                    if(message?.replace(/\s/g, "") !== "")
+                    {
+                        setError("");
+                    }
+                    setMessage(e.target.value)
+                
+                }}></textarea>
+                <div className='w-full flex  items-center justify-end  '>
+                    <button  disabled={notFetched}  onClick={createPost} className='disabled:text-gray-3s00 flex items-center justify-center bg-blue-400 rounded-3xl py-2  w-24 h-12 text-white font-bold px-6'>
+                            {LockWhenCreatingPost()}
                     </button>
+
                 </div>
+                <p className='h-1'>{error}</p>
             </div>
         </div>
     )
