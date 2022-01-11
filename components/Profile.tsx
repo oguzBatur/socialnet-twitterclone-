@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import {useCookies} from 'react-cookie';
 import {Router, useRouter} from 'next/router';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {Profile as ProfileType} from '../common/types';
+import EditProfile from './EditProfile';
 
 interface ProfileProps extends ProfileType {
 
@@ -15,15 +16,17 @@ interface ProfileStates extends ProfileType{
     theSession: Array<number>,
     theFetched: number,
     followButton: string,
+    isEditing: boolean,
 }
 
-export default function Profile({followers,follows,id,lastname,likes,location,name,posts,sessionUsername,username}:ProfileProps) {
+export default function Profile({followers,follows,id,lastname,likes,location,name,posts,sessionUsername,username, description,img}:ProfileProps) {
 
     const [cookies] = useCookies(["user-token"]);
     const [cannotFollow, setCannotFollow] = useState<ProfileStates["cannotFollow"]>();
     const [theSession, setTheSession] = useState<ProfileStates["theSession"]>();
     const [theFetched, setTheFetched] = useState<ProfileStates["theFetched"]>();
     const [followButton, setFollowButton] = useState<ProfileStates["followButton"]>("Follow");
+    const [isEditing, setIsEditing] = useState<ProfileStates["isEditing"]>(false);
 
 
     const {query} = useRouter();
@@ -65,7 +68,6 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
             },
         });
         const data = await response.json();
-        console.log(data.result.followers);
         setTheSession(data.result.followers);
         fetchFollowingData();
     }
@@ -99,7 +101,6 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
     useEffect(() => {
         fetchSessionFollowData();
         FollowButtonHandler();
-        console.log("Profile Initiated")
     }, [theFetched])
 
 
@@ -111,6 +112,12 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
         visible: { opacity: 1, y: 0 },
         hidden: { opacity: 0, y: -20 },
     }
+
+    const handleEditing = () => {
+        document.body.style.overflowY = "scroll";
+        setIsEditing(false);
+    }
+
     //!sessionUsername || !name || !lastname || !username || !followers || !follows || !theFetched || !theSession
     if(!sessionUsername || !name || !lastname || !username || !followers || !follows || !theFetched || !theSession)
     {
@@ -134,8 +141,36 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
     
         return (
             <motion.div key={"profile-render"}  className=' mb-12  text-white bg-[#2f3d4f] grid grid-rows-2 w-6/12 m-auto p-12 rounded-3xl grid-cols-3 items-center my-8  justify-items-center'>
+                <div className='w-24  col-start-1 row-span-3 self-center justify-self-center flex items-center justify-center row-start-1 h-24 border-gray-400 border-2 rounded-full overflow-hidden'>
+                    <img  src={img} alt="profile-pic" />
+                </div>
+                {(() => {
+                    if(isEditing && sessionUsername === username)
+                    {
+                        return(
+                            <AnimatePresence>
+                                <EditProfile username={sessionUsername} img={img} handleEditing={handleEditing} />
+                            </AnimatePresence>
+                        )
+                    }
+                })()}
+                {(() => {
+                    if(sessionUsername === username)
+                    {
+                        return(<button className='col-start-3 row-start-2 justify-self-center grid-flow-row self-start px-4 py-2 bg-[#5f9bb4] rounded-full' onClick={() => {
+                            document.body.style.overflow = "hidden";
+                            setIsEditing(true)
+                        }}>Edit Profile</button>)
+                    }
+                
+                })()}
+                
                 <motion.p variants={item} initial='hidden' animate='visible' className=' font-bold  text-3xl col-start-2  flex items-center self-end'>{username}</motion.p>
-                <motion.p variants={item} initial='hidden' animate='visible'  className='col-start-2    self-start opacity-40  '>{name + " " + lastname}</motion.p>
+                <motion.p variants={item} initial='hidden' animate='visible'  className='col-start-2    self-start opacity-40  '>
+                    <p>{name + " " + lastname}</p>
+                    <p className='text-sm text-center opacity-60'>{location}</p>
+                </motion.p>
+                <p className='row-start-4 col-start-1 self-center justify-self-center col-span-3'>{description}</p>
                
                 {(() => {
                     if(theID !== sessionUsername)

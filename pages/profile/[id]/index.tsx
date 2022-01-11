@@ -36,7 +36,10 @@ export default function profile() {
     const [location,setLocation] = useState<ProfileType["location"]>("");
     const [username,setUsername] = useState<ProfileType["username"]>("");
     const [id,setId] = useState<ProfileType["id"]>(0);
+    const [img,setImg] = useState<ProfileType["img"]>();
+    const [description,setDescription] = useState<ProfileType["description"]>();
     const [allPosts, setAllPosts] = useState<ProfileStates["allPosts"]>()
+
 
     //
 
@@ -53,7 +56,6 @@ export default function profile() {
         const data:Data = await response.json();
         const {result} = data;
         
-        console.log(result);
         //Set The Profile States here
         if(result)
         {
@@ -66,6 +68,9 @@ export default function profile() {
             setFollows(result.follows);
             setUsername(result.username);
             setId(result.id);
+            setDescription(result.description);
+            setImg(result.img);
+
             FetchPosts();
         }
         
@@ -86,7 +91,9 @@ export default function profile() {
         {
             const {result} = data;  
             setAllPosts(result);
+         
         }
+     
     }
 
     useEffect(() => {
@@ -95,7 +102,7 @@ export default function profile() {
     return (
         <div className='bg-[#050406] min-h-screen'>
             <Navbar username={sessionUsername} />
-            <Profile  followers={followers} follows={follows} id={id}  lastname={lastname} likes={likes} location={location} name={name} posts={posts} username={username} key={name + lastname + username + id}  sessionUsername={sessionUsername}    />
+            <Profile  followers={followers} follows={follows} id={id} description={description} img={img}  lastname={lastname} likes={likes} location={location} name={name} posts={posts} username={username} key={name + lastname + username + id}  sessionUsername={sessionUsername}    />
             <p className='w-full text-center text-3xl font-bold text-white mb-12'>Feed</p> 
             {(() => {
                 if(!allPosts)

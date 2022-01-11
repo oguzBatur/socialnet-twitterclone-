@@ -19,13 +19,10 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
 
             if(name && lastname && email && password)
             {
-                console.log('Will Try does it exist.')
                 await pool.connect();
                 const doesItExist = await pool.query('SELECT EXISTS(SELECT * FROM login WHERE email=($1))', [email]);
-                await console.log(doesItExist.rows[0].exists);
                 if(doesItExist.rows[0].exists)
                 {
-                    await console.log('It does exist!')
                     await res.status(400).json({auth:false, error:true,result: 'User Already Exists.', token:null})
                 }
                 else
@@ -63,7 +60,6 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
         }
 
     } catch (error) {
-        console.log(error)
         res.status(503).json({result: null, auth: false, error: true, token:null});
     }
 }

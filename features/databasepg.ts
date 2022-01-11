@@ -22,13 +22,28 @@ export const checkProfileFromLoginID =async (profileID:string | number) => {
     return await (await pool.query('SELECT EXISTS (SELECT * FROM profile WHERE id=($1))', [profileID])).rows[0].exists;    
 }
 
+
+//! Update User Profile Elements.
+export const updateImg =async (img:string, username:string) => {
+    return await (await pool.query("UPDATE profile SET img = ($1) WHERE username=($2)", [img,username])).rows[0];
+}
+
+export const updateLocation =async (username:string, location:string) => {
+    return await (await pool.query("UPDATE profile SET location=($1) WHERE username=($2)", [location,username])).rows[0];
+
+}
+
+export const updateDescription =async (description:string, username:string) => {
+    return await (await pool.query("UPDATE profile SET description=($1) WHERE username=($2)", [description, username])).rows[0];
+}
+
+
 //! Get One Row from any Table (Login and Profile)
 export const getFromLoginMail = async(email:string) => {
     return await (await pool.query('SELECT * FROM login WHERE email=($1)', [email])).rows[0];
 }
 export const getProfileFromLoginID =async (profileID:string | number) => {
     return await (await pool.query('SELECT * FROM profile WHERE id=($1)', [profileID])).rows[0];
-    
 }
 
 
@@ -164,11 +179,9 @@ export const queryEngine = async(userinfo:getFeedOptions["userinfo"],options:get
                 return userProfile;
 
             case 'All Posts':
-                console.log("This is the user thats feed we have to fetch: ", userProfile);
                 let posts:Array<Post>=[];
                 let followingIDs:Array<number> =[];
                 const postsIDs:Array<number> = await (await pool.query("SELECT posts FROM profile WHERE id=($1)", [userProfile.id])).rows[0].posts;
-                console.log('It seems like youre goin in!')
                 if(userProfile.follows)
                 {
                     for (let j = 0; j < userProfile.follows.length; j++) {
@@ -209,13 +222,11 @@ export const queryEngine = async(userinfo:getFeedOptions["userinfo"],options:get
                 let followersData:Array<Profile> = [];
                 let followingData:Array<Profile> = [];
                 let followData:Array<Array<Profile>> = [];
-                console.log("These are the followers: ", userProfile);
                 if(userProfile.followers)
                 {
                     for (let i = 0; i < userProfile.followers.length; i++) {    
                         const followers = await (await pool.query('SELECT * FROM profile WHERE id=($1)', [userProfile.followers[i]])).rows[0];
                         followersData.push(followers)
-                        console.log('In loop!')
                     }
                 }
                 if(userProfile.follows)

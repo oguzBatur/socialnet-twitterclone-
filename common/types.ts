@@ -10,7 +10,9 @@ export interface Profile{
     posts: Array<number>,
     likes: Array<number>,
     follows: Array<number>,
-    followers: Array<number>
+    followers: Array<number>,
+    img?: string,
+    description?: string
 }
 
 export interface Post{

@@ -33,7 +33,6 @@ const Home:NextPage = () => {
 
       })
       const data = await response.json();
-      console.log(data);
       if(data.auth)
       {
           Router.router?.push('/feed');
@@ -57,7 +56,6 @@ const Home:NextPage = () => {
     })
 
     const data = await response.json();
-    console.log(data);
     if(!data.auth)
     {
       setError(data.result.toString())

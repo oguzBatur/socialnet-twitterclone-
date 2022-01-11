@@ -56,7 +56,6 @@ export default function feed() {
 
             })
             const data = await response.json();
-            console.log(data);
             if(!data.auth)
             {
                 removeCookie('user-token');
@@ -98,7 +97,6 @@ export default function feed() {
             else
             {
                 setFeedFetched(true)
-                console.log(data);
                 setPosts(data.result);
                 
             }
@@ -126,15 +124,17 @@ export default function feed() {
     useEffect(() => {
         checkForToken();
         setInterval(checkForToken, 300000);
-        console.log('ForceUpdated.');
     }, [shareCounter])
    
     return (
+        
         <div className='bg-[#050406] min-h-screen'>
+            
             <Navbar username={user.username}/>
             <div className='w-10/12 m-auto flex items-center justify-center flex-col '>
                 <CreatePost key={'createpostelement'} parentUpdate={forceUpdate} email={user.email} lastname={user.lastname} name={user.name} username={user.username}  />
             </div>
+            
             {!feedFetched && (
                 <div key={'loader'} className='flex justify-center items-center h-[70vh]'>
                     <Loader borderWidth='border-4' height='h-12' width='w-12' />

@@ -8,9 +8,6 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
         if(req.method === 'PUT')
         {
             const {author, post, email, timestamp} = req.body;
-            console.log('The Author: ', author)
-            console.log('The Post: ', post);
-            console.log('The Email: ', email);
             const checkLogin = await checkLoginMail(email);
             if(checkLogin)
             {
@@ -20,8 +17,6 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
                 {
                     const thePost = await createAPost(author,post,timestamp);
                     const updateProfile = await updateAuthorProfile(getLogin.profileid,thePost.id)
-                    console.log(thePost);
-                    console.log(updateProfile);
                     
                     res.status(403).json({
                         auth: false,
@@ -61,7 +56,6 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
         }
 
     } catch (error) {
-        console.log(error);
         res.status(503).json({result: null, auth: false, error: true, token:null});
     }
 }

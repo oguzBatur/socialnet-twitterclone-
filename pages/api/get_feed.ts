@@ -82,7 +82,6 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
         }
 
     } catch (error) {
-        console.log(error);
         res.status(503).json({result: null, auth: false, error: true, token:null});
     }
 }

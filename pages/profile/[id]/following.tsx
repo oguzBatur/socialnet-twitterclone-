@@ -82,13 +82,18 @@ export default function following() {
             return following.map(following => {
                 return(
                 <motion.div onClick={() => {
-                    router.push('/profile/'+following.username)
-                }} className='bg-slate-800 p-4 cursor-pointer hover:bg-slate-700 duration-150 text-white rounded-md flex flex-col  items-start  h-24 justify-center w-6/12'>
-                    <p className='text-xl  font-bold'>{following.name + " " + following.lastname}</p>
-                    <div className='flex gap-2 text-sm'>
-                        <p className='opacity-80'>{following.username}</p>
+                    router.push('/profile/'+ following.username)
+                }} className='bg-slate-800 p-4 cursor-pointer hover:bg-slate-700 duration-150 text-white rounded-md flex gap-3  items-center   justify-start w-6/12'>
+                    <div className='w-16 h-16 rounded-full text-white overflow-hidden flex items-center justify-center'>
+                        <img src={following.img} alt="" /> 
                     </div>
-                    <p className='text-sm'>Creator of SocialNet.com, Husband, Devoted Muslim, Supreme Turan Boy.</p>
+                    <div>
+                        <p className='text-xl  font-bold'>{following.name + " " + following.lastname}</p>
+                        <div className='flex gap-2 text-sm'>
+                            <p className='opacity-80'>{following.username}</p>
+                        </div>
+                        <p className='text-sm h-6'>{following.description ? following.description : " "}</p>
+                    </div>
                 </motion.div>)
             })
         }

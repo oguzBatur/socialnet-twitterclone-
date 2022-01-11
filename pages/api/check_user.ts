@@ -17,7 +17,6 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
                 const isPassCorrect = await comparePasses(password, getUser.rows[0].password);
                 if(isPassCorrect)
                 {
-                    console.log('the pass is correct!');
                     const checkProfile = await pool.query(`SELECT EXISTS (SELECT * FROM profile WHERE id=($1))`, [getUser.rows[0].profileid]);
                     if(checkProfile.rows[0].exists)
                     {
@@ -49,7 +48,6 @@ export default async function handler(req: NextApiRequest,res: NextApiResponse<D
         }
 
     } catch (error) {
-        console.log(error);
         res.status(503).json({result: 'Server is down, please try again later.',auth: false,error:false, token:null});
 
     }

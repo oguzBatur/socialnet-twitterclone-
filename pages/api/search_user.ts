@@ -6,10 +6,8 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse<Dat
     if(req.method === "GET")
     {
         const username = req.headers.authorization;
-        console.log("There is a contact!!");
 
         const search= await queryEngine(typeof username === "string"  ? username : "", {fetchingData:"Search"});
-        console.log(search);        
         res.json({auth:true,error:false,result:search,token:null})
     }
     else res.json({

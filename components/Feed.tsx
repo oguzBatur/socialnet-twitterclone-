@@ -50,7 +50,6 @@ export default function Feed({posts}:FeedProps) {
     const [postDepo, setPostDepo] = useState<FeedStates["postDepo"]>([]);
 
     useEffect(() =>  {
-        console.log('Initiated Feed')
         FormatPosts();
 
     }, [posts,router.query.id])
@@ -59,7 +58,6 @@ export default function Feed({posts}:FeedProps) {
 
 
     const FormatPosts = () => {
-        console.log(posts);
         if(posts instanceof Array)
         {
             setPostDepo(posts.sort((a,b) => b.id - a.id).map((post:Post) => {
@@ -88,7 +86,6 @@ export default function Feed({posts}:FeedProps) {
     }
 
     const displayManager = () => {
-        console.log (postDepo)
         if(!postDepo)
         {
             return <p className='text-bold text-white text-2xl'>No Posts</p>

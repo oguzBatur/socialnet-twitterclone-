@@ -6,7 +6,6 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse<Dat
     if(req.method === "POST")
     {
         const {username} = req.body;
-        console.log(username);
         const followData = await queryEngine(username, {fetchingData:"username", returnData:"FollowData"});
         
         res.json({auth:true,error:false,result:followData,token:null})

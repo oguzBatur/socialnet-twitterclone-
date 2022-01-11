@@ -10,7 +10,9 @@ interface FollowersState{
     username: string,
     name: string,
     lastname: string,
-    errorMsg: string
+    errorMsg: string,
+    img: string,
+    description: string
 }
 
 
@@ -26,6 +28,8 @@ export default function followers() {
     const [username, setUsername] = useState<FollowersState["username"]>();
     const [name, setName] = useState<FollowersState["name"]>("");
     const [lastname, setLastname] = useState<FollowersState["lastname"]>();
+    const [img, setImg] = useState<FollowersState["img"]>();
+    const [description, setDescription] = useState<FollowersState["description"]>();
 
     //Error Handling
     const [errorMsg, setErrorMsg] = useState<FollowersState["errorMsg"]>();
@@ -81,14 +85,19 @@ export default function followers() {
         {
             return followers.map(follower => {
                 return(
-                <motion.div onClick={() => {
+                <motion.div key={`${follower.description}`} onClick={() => {
                     router.push('/profile/'+ follower.username)
-                }} className='bg-slate-800 p-4 cursor-pointer hover:bg-slate-700 duration-150 text-white rounded-md flex flex-col  items-start  h-24 justify-center w-6/12'>
-                    <p className='text-xl  font-bold'>{follower.name + " " + follower.lastname}</p>
-                    <div className='flex gap-2 text-sm'>
-                        <p className='opacity-80'>{follower.username}</p>
+                }} className='bg-slate-800 p-4 cursor-pointer hover:bg-slate-700 duration-150 text-white rounded-md flex gap-3  items-center   justify-start w-6/12'>
+                    <div className='w-16 h-16 rounded-full text-white overflow-hidden flex items-center justify-center'>
+                        <img src={follower.img} alt="" /> 
                     </div>
-                    <p className='text-sm'>Creator of SocialNet.com, Husband, Devoted Muslim, Supreme Turan Boy.</p>
+                    <div>
+                        <p className='text-xl  font-bold'>{follower.name + " " + follower.lastname}</p>
+                        <div className='flex gap-2 text-sm'>
+                            <p className='opacity-80'>{follower.username}</p>
+                        </div>
+                        <p className='text-sm h-6'>{follower.description ? follower.description : " "}</p>
+                    </div>
                 </motion.div>)
             })
         }
