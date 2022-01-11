@@ -6,7 +6,7 @@ import Loader from './Loader';
 import Image from 'next/image'
 
 interface EditProfileProps{
-    img: string | undefined,
+    img: string | undefined | any,
     handleEditing: any,
     username: string
 }

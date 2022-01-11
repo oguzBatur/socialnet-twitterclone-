@@ -11,7 +11,7 @@ export interface Profile{
     likes: Array<number>,
     follows: Array<number>,
     followers: Array<number>,
-    img?: string,
+    img?: string | any,
     description?: string
 }
 
