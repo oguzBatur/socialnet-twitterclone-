@@ -4,6 +4,7 @@
 > I may implement likes and retweets.
 
 ### Technologies Used
+- **TypeScript** for type checking.
 - **ReactJS with NextJS** to learn NextJS 
 - **Framer Motion** for Animating some components.
 - **Tailwind CSS** for easy styling.
