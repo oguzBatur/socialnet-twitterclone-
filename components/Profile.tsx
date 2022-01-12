@@ -48,7 +48,7 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
 
 
     const FollowTheUser = async() => {
-        const response = await fetch("http://localhost:3000/api/follow", {
+        const response = await fetch("https://socialnettwitterclone.herokuapp.com/api/follow", {
             method: "POST",
             headers:{
                 "Content-Type": "application/json"
@@ -63,7 +63,7 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
     }
  
     const fetchSessionFollowData = async() => {
-        const response = await fetch('http://localhost:3000/api/fetch_profile', {
+        const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/fetch_profile', {
             method: 'GET',
             headers: {
                 'Authorization' : sessionUsername
@@ -75,7 +75,7 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
     }
 
     const fetchFollowingData = async() => {
-        const response = await fetch('http://localhost:3000/api/fetch_profile', {
+        const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/fetch_profile', {
             method: 'GET',
             headers: {
                 'Authorization' : username

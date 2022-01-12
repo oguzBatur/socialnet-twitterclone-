@@ -16,6 +16,7 @@ interface SignupStates{
 
 
 const Signup:NextPage = () =>  {
+
     const [cookies, setCookie, removeCookie] = useCookies(['user-token']);
     const [username, setUsername] = useState<SignupStates["username"]>('')
     const [name,setName] = useState<SignupStates["name"]>('');
@@ -24,12 +25,14 @@ const Signup:NextPage = () =>  {
     const [password,setPassword] = useState<SignupStates["password"]>('');
     const [errorMessage, setErrorMessage] = useState<SignupStates["errorMessage"]>('');
     const [fetching, setFetching] = useState<SignupStates["fetching"]>(false);
+
+
     const preventReRenderAndCallHandleForm = async(e:React.FormEvent) => {
         try {
             e.preventDefault();
             if(name && lastname && email && password)
             {
-                const response = await fetch('http://localhost:3000/api/create_user', {
+                const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/create_user', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

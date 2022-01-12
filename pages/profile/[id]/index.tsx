@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import {useRouter} from 'next/router';
 import Navbar from '../../../components/Navbar';
 import Profile from '../../../components/Profile';
@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import { Post, Profile as ProfileType } from '../../../common/types';
 import { Data } from '../../api/create_user';
 import Loader from '../../../components/Loader';
+import { NextPage } from 'next';
 
 
 export interface ProfileStates{
@@ -18,7 +19,7 @@ export interface ProfileStates{
 
 
 
-export default function profile() {
+const profile:NextPage = () =>  {
     
     const [sessionUsername, setSessionUsername] = useState<ProfileStates["sessionUser"]>("")
 
@@ -49,7 +50,7 @@ export default function profile() {
         FetchProfile();
     };
     const FetchProfile = async() => {
-        const response = await fetch("http://localhost:3000/api/fetch_profile", {
+        const response = await fetch("https://socialnettwitterclone.herokuapp.com/api/fetch_profile", {
             method: "GET",
             headers: {"Authorization": typeof theID === "string" ? theID : "" },
         });
@@ -80,7 +81,7 @@ export default function profile() {
 
     const FetchPosts = async() => {
 
-        const response = await fetch("http://localhost:3000/api/get_feed",
+        const response = await fetch("https://socialnettwitterclone.herokuapp.com/api/get_feed",
         {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({username: theID}),
@@ -124,3 +125,4 @@ export default function profile() {
     )
 }
 
+export default profile;

@@ -46,7 +46,7 @@ export default function EditProfile({img, handleEditing, username}:EditProfilePr
     const router = useRouter();
     async function sendChangesToServer(){
         setProcessing(true)
-        const response = await fetch("http://localhost:3000/api/update_profile", {
+        const response = await fetch("https://socialnettwitterclone.herokuapp.com/api/update_profile", {
             method: "PUT",
             body:JSON.stringify({
                 username: username,

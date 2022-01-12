@@ -24,7 +24,7 @@ export default function Searchbar() {
         if(e.target.value.replace(/\s/g, "") !== "")
         {
             
-            const response = await fetch("http://localhost:3000/api/search_user", {
+            const response = await fetch("https://socialnettwitterclone.herokuapp.com/api/search_user", {
                 method: "GET",
                 headers:{
                     "Authorization": e.target.value

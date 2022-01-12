@@ -1,8 +1,8 @@
+import { NextPage } from "next";
 import Link from "next/link";
 
 
-export default function Custom404()
-{
+const  Custom404:NextPage = () => {
     return(
 
         <div className='flex items-center justify-center flex-col gap-4  h-screen'>
@@ -17,3 +17,4 @@ export default function Custom404()
     )
 
 }
+export default Custom404;

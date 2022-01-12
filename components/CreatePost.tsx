@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import { useCookies } from 'react-cookie'
 import { motion } from 'framer-motion';
 import Loader from './Loader';
@@ -32,7 +32,7 @@ export default function CreatePost({name,lastname,email, parentUpdate, username}
             parentUpdate();
             setNotFetched(true);
 
-            const response = await fetch('http://localhost:3000/api/create_post', 
+            const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/create_post', 
             {
                 method: 'PUT',
                 headers: {

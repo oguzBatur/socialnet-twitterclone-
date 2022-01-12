@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion';
 import { Profile } from '../../../common/types';
@@ -6,6 +6,7 @@ import { Data } from '../../api/create_user';
 import Loader from '../../../components/Loader';
 import {FaArrowLeft} from "react-icons/fa"
 import Image from 'next/image';
+import { NextPage } from 'next';
 
 interface FollowersState{
     followers:Array<Profile>,
@@ -18,7 +19,7 @@ interface FollowersState{
 }
 
 
-export default function followers() {
+const followers:NextPage = () => {
 
     const router = useRouter();
 
@@ -39,7 +40,7 @@ export default function followers() {
     const GetUserInformation = async() => {
         if(router.query.id)
         {
-            const response = await fetch('http://localhost:3000/api/fetch_profile', {
+            const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/fetch_profile', {
                 method:'GET',
                 headers:{
                     "Authorization": typeof router.query.id ==="string" ? router.query.id : ""
@@ -64,7 +65,7 @@ export default function followers() {
     const GetFollowerInformation = async() => {
         if(router.query.id)
         {
-            const response = await fetch('http://localhost:3000/api/fetch_followers',
+            const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/fetch_followers',
             {
                 method: 'POST',
                 headers: {
@@ -146,3 +147,5 @@ export default function followers() {
         </div>
     )
 }
+
+export default followers;

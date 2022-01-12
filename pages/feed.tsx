@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
@@ -7,6 +7,7 @@ import Feed from '../components/Feed';
 import Loader from '../components/Loader';
 import CreatePost from '../components/CreatePost';
 import { Post } from '../common/types';
+import { NextPage } from 'next';
 
 interface FeedStates{
     user:{
@@ -21,7 +22,7 @@ interface FeedStates{
     shareCounter: number
 }
 
-export default function feed() {
+const feed:NextPage = () => {
     
    const [cookies, setCookie,removeCookie] = useCookies(["user-token"]);
     const [user,setUser] = useState<FeedStates["user"]>({
@@ -49,7 +50,7 @@ export default function feed() {
         }
         else
         {
-            const response = await fetch('http://localhost:3000/api/auth', {
+            const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/auth', {
                 headers:{
                     'Authorization': cookies['user-token']
                 },
@@ -72,7 +73,7 @@ export default function feed() {
     }
 
     const getFeed = async(email:string) => {
-        const response = await fetch('http://localhost:3000/api/get_feed', {
+        const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/get_feed', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -152,3 +153,4 @@ export default function feed() {
         </div>
     )
 }
+export default feed;

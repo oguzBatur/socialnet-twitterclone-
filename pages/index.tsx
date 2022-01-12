@@ -26,7 +26,7 @@ const Home:NextPage = () => {
     setFetching(true);
     if(cookies['user-token'])
     {
-      const response = await fetch('http://localhost:3000/api/auth', {
+      const response = await fetch('https://socialnettwitterclone.herokuapp.com/api/auth', {
         headers:{
             'Authorization': cookies['user-token']
         },
@@ -44,7 +44,7 @@ const Home:NextPage = () => {
   const handleSubmitForm = async (e:FormEvent) => {
     e.preventDefault();
     setFetching(true);
-    const response = await fetch('http://localhost:3000/api/check_user', {
+    const response = await fetch('https://socialnettwitterclone.herokuapp.com/check_user', {
       method: 'POST',
       body: JSON.stringify({
         email: email,
