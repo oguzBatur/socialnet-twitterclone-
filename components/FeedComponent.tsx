@@ -81,7 +81,7 @@ export default function Feed({posts}:FeedProps) {
         }
         else
         {
-            setPostDepo([<p className='text-bold text-white text-2xl'>No Posts</p>])
+            setPostDepo([<p key={"noposts"}  className='text-bold text-white text-2xl'>No Posts</p>])
         }
     }
 

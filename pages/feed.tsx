@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import Router from 'next/router';
-import Feed from '../components/Feed';
+import FeedComponent from '../components/FeedComponent';
 import Loader from '../components/Loader';
 import CreatePost from '../components/CreatePost';
 import { Post } from '../common/types';
@@ -22,7 +22,7 @@ interface FeedStates{
     shareCounter: number
 }
 
-const feed:NextPage = () => {
+const Feed:NextPage = () => {
     
    const [cookies, setCookie,removeCookie] = useCookies(["user-token"]);
     const [user,setUser] = useState<FeedStates["user"]>({
@@ -108,7 +108,7 @@ const feed:NextPage = () => {
         if(error === '')
         {
             return(
-                <Feed  posts={posts} key={'TheFeed'}/>
+                <FeedComponent  posts={posts} key={'TheFeed'}/>
 
             )
         }
@@ -153,4 +153,4 @@ const feed:NextPage = () => {
         </div>
     )
 }
-export default feed;
+export default Feed;

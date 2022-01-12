@@ -1,8 +1,8 @@
 import React, {FC, useEffect, useState} from 'react'
 import {useRouter} from 'next/router';
 import Navbar from '../../../components/Navbar';
-import Profile from '../../../components/Profile';
-import Feed from '../../../components/Feed';
+import ProfileComponent from '../../../components/ProfileComponent';
+import Feed from '../../../components/FeedComponent';
 import { checkToken } from '../../../features/tokens';
 import { useCookies } from 'react-cookie';
 import { Post, Profile as ProfileType } from '../../../common/types';
@@ -19,7 +19,7 @@ export interface ProfileStates{
 
 
 
-const profile:NextPage = () =>  {
+const Profile:NextPage = () =>  {
     
     const [sessionUsername, setSessionUsername] = useState<ProfileStates["sessionUser"]>("")
 
@@ -103,7 +103,7 @@ const profile:NextPage = () =>  {
     return (
         <div className='bg-[#050406] min-h-screen'>
             <Navbar />
-            <Profile  followers={followers} follows={follows} id={id} description={description} img={img}  lastname={lastname} likes={likes} location={location} name={name} posts={posts} username={username} key={name + lastname + username + id}  sessionUsername={sessionUsername}    />
+            <ProfileComponent  followers={followers} follows={follows} id={id} description={description} img={img}  lastname={lastname} likes={likes} location={location} name={name} posts={posts} username={username} key={name + lastname + username + id}  sessionUsername={sessionUsername}    />
             <p className='w-full text-center text-3xl font-bold text-white mb-12'>Feed</p> 
             {(() => {
                 if(!allPosts)
@@ -125,4 +125,4 @@ const profile:NextPage = () =>  {
     )
 }
 
-export default profile;
+export default Profile;

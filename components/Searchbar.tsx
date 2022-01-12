@@ -46,7 +46,7 @@ export default function Searchbar() {
         {
             return searchResult.map(result => {
                 return(
-                    <div  className=' absolute w-6/12 bg-[#326c92] rounded-lg mt-1  p-2'>
+                    <div key={result.username.length + result.id + result.name + result.lastname}  className=' absolute w-6/12 bg-[#326c92] rounded-lg mt-1  p-2'>
                         <div onClick={() => {router.push(`/profile/${result.username}`);}} className='flex items-center cursor-pointer'>
                             <p>{result.username}</p>
                         </div>

@@ -103,7 +103,7 @@ export default function Profile({followers,follows,id,lastname,likes,location,na
     useEffect(() => {
         fetchSessionFollowData();
         FollowButtonHandler();
-    }, [theFetched])
+    }, [username]) 
 
 
     const list = {

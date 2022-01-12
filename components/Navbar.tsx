@@ -41,16 +41,7 @@ export default function Navbar() {
         const token = await verifyJwt(cookies['user-token']);
         setTheUserName(token.username);
     }
-    useEffect(() => {
-        if(cookies['user-token'])
-        {
-            setLogoPath("/feed")
-        }
-        else
-        {
-            setLogoPath("/");
-        }
-    })
+   
     const SearchResultHandler = () => {
 
         return searchResult.map(result => {
@@ -75,7 +66,7 @@ export default function Navbar() {
     }
 
  
-    useEffect(()=>{theToken()},[])
+    useEffect(()=>{theToken()},[cookies]);
 
     return (
         

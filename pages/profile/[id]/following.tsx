@@ -19,7 +19,7 @@ interface FollowingState{
 }
 
 
-const following:NextPage = () => {
+const Following:NextPage = () => {
 
     const router = useRouter();
 
@@ -86,7 +86,7 @@ const following:NextPage = () => {
         {
             return following.map(following => {
                 return(
-                <motion.div onClick={() => {
+                <motion.div key={following.name + following.lastname + following.id} onClick={() => {
                     router.push('/profile/'+ following.username)
                 }} className='bg-slate-800 p-4 cursor-pointer hover:bg-slate-700 duration-150 text-white rounded-md flex gap-3  items-center   justify-start w-6/12'>
                     <div className='w-16 h-16 rounded-full relative text-white overflow-hidden flex items-center justify-center'>
@@ -150,4 +150,4 @@ const following:NextPage = () => {
     )
 }
 
-export default following;
+export default Following;

@@ -19,7 +19,7 @@ interface FollowersState{
 }
 
 
-const followers:NextPage = () => {
+const Followers:NextPage = () => {
 
     const router = useRouter();
 
@@ -148,4 +148,4 @@ const followers:NextPage = () => {
     )
 }
 
-export default followers;
+export default Followers;
