@@ -10,4 +10,4 @@
 - **Tailwind CSS** for easy styling.
 
 ### Live Demo
-> Will be added in the future.
+https://socialnettwitterclone.herokuapp.com/
